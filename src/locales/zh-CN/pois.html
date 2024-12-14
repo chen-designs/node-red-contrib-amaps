@@ -1,0 +1,218 @@
+<script type="text/html" data-help-name="amaps-pois">
+  <p>
+    <span>服务提供多种场景的地点搜索能力，包括关键字搜索、周边搜索、多边形区域搜索</span>
+    <a href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch">查看详情</a>
+  </p>
+
+  <h3>输出信息</h3>
+  <ol class="node-ports">
+    <li>
+      <span>关键字搜索</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch#s1">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>关键字</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          关键字(
+          <code>关键字</code>
+          或者
+          <code>地点类型</code>
+          二选一必填)、需要被检索的地点文本信息。只支持一个关键字，文本总长度不可超过
+          <code>80</code>
+          字符
+        </dd>
+        <dt>
+          <span>地点类型</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          地点类型(
+          <code>关键字</code>
+          或者
+          <code>地点类型</code>
+          二选一必填)、地点文本搜索接口支持按照设定的 POI 类型限定地点搜索结果；地点类型与 poi typecode 是同类内容，可以传入多个 poi typecode，相互之间用
+          <code>|</code>
+          分隔，内容可以参考 POI 分类码表；地点（POI）列表的排序会按照高德搜索能力进行综合权重排序
+        </dd>
+        <dt class="optional">
+          <span>[搜索区划]</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          搜索区划、增加指定区域内数据召回权重，如需严格限制召回数据在区域内，可输入 citycode，adcode，cityname；cityname 仅支持城市级别和中文，如
+          <code>北京市</code>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>周边搜索</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch#s5">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>中心坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          中心点坐标、圆形区域检索中心点，不支持多个点。经度和纬度用
+          <code>,</code>
+          分割，经度在前，纬度在后，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>搜索半径</span>
+          <span class="property-type">
+            <code>number</code>
+          </span>
+        </dt>
+        <dd>搜索半径、取值范围值：0-50000，大于 50000 时按默认值，单位：米,默认值：5000</dd>
+        <dt>
+          <span>地点类型</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          地点类型(
+          <code>关键字</code>
+          或者
+          <code>地点类型</code>
+          二选一必填)、地点文本搜索接口支持按照设定的 POI 类型限定地点搜索结果；地点类型与 poi typecode 是同类内容，可以传入多个 poi typecode，相互之间用
+          <code>|</code>
+          分隔，内容可以参考 POI 分类码表；地点（POI）列表的排序会按照高德搜索能力进行综合权重排序
+        </dd>
+        <dt class="optional">
+          <span>[搜索区划]</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          搜索区划、增加指定区域内数据召回权重，如需严格限制召回数据在区域内，可输入 citycode，adcode，cityname；cityname 仅支持城市级别和中文，如
+          <code>北京市</code>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <div>多边形区域搜索</div>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch#s9">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>搜索范围</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          多边形区域、多个坐标对集合，坐标对用
+          <code>|</code>
+          分割。多边形为矩形时，可传入左上右下两顶点坐标对；其他情况下首尾坐标对需相同。
+        </dd>
+        <dt>
+          <span>搜索范围</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          多边形区域、多个坐标对集合，坐标对用
+          <code>|</code>
+          分割。多边形为矩形时，可传入左上右下两顶点坐标对；其他情况下首尾坐标对需相同。
+        </dd>
+        <dt>
+          <span>搜索半径</span>
+          <span class="property-type">
+            <code>number</code>
+          </span>
+        </dt>
+        <dd>搜索半径、取值范围值：0-50000，大于 50000 时按默认值，单位：米,默认值：5000</dd>
+        <dt>
+          <span>地点类型</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          地点类型(
+          <code>关键字</code>
+          或者
+          <code>地点类型</code>
+          二选一必填)、地点文本搜索接口支持按照设定的 POI 类型限定地点搜索结果；地点类型与 poi typecode 是同类内容，可以传入多个 poi typecode，相互之间用
+          <code>|</code>
+          分隔，内容可以参考 POI 分类码表；地点（POI）列表的排序会按照高德搜索能力进行综合权重排序
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>ID 搜索</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api-advanced/newpoisearch#s13">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>关键字</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          POI 唯一标识、最多可以传入
+          <code>10</code>
+          个
+          <code>id</code>
+          ，多个
+          <code>id</code>
+          之间用
+          <code>|</code>
+          分隔
+        </dd>
+      </dl>
+    </li>
+  </ol>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>object</code>
+      </span>
+    </dt>
+    <dd>第一条 POI 信息</dd>
+    <dt>
+      <span>res</span>
+      <span class="property-type">
+        <code>object</code>
+      </span>
+    </dt>
+    <dd>POI 完整集合</dd>
+  </dl>
+
+  <h3>功能介绍</h3>
+  <ul>
+    <li>
+      <code>关键字搜索</code>
+      开发者可通过文本关键字搜索地点信息，文本可以是结构化地址，例如：北京市朝阳区望京阜荣街 10 号；也可以是 POI 名称，例如：首开广场
+    </li>
+    <li>
+      <code>周边搜索</code>
+      开发者可设置圆心和半径，搜索圆形区域内的地点信息
+    </li>
+    <li>
+      <code>多边形区域搜索</code>
+      开发者可设置首尾连接的几何点组成多边形区域，搜索坐标对应多边形内的地点信息
+    </li>
+    <li>
+      <code>ID 搜索</code>
+      开发者可通过已知的地点 ID（POI ID）搜索对应地点信息，建议结合输入提示接口使用
+    </li>
+  </ul>
+</script>

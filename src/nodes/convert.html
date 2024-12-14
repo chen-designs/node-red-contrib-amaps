@@ -1,0 +1,74 @@
+<script type="text/html" data-template-name="amaps-convert">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="坐标转换" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-locations">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">原始坐标</span>
+    </label>
+    <input id="node-input-locations" type="text" placeholder="多个用坐标用|隔开" style="width:70%" />
+    <input id="node-input-locations_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-coordsys">
+      <i class="fa fa-sliders"></i>
+      <span class="margin-left:8px">原坐标系</span>
+    </label>
+    <input id="node-input-coordsys" type="text" placeholder="原坐标系(gps、baidu、mapbar、autonavi)" style="width:70%" />
+    <input id="node-input-coordsys_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    RED.nodes.registerType('amaps-convert', {
+      icon: 'font-awesome/fa-refresh',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '坐标转换',
+      label: function () {
+        return this.name || '坐标转换'
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        locations: { value: '', type: 'text' }, // 原始坐标
+        locations_type: { value: 'str', type: 'text' },
+        coordsys: { value: 'gps', type: 'text' }, // 原坐标系
+        coordsys_type: { value: 'list', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-locations').typedInput({
+          typeField: '#node-input-locations_type',
+          default: this.locations_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        const COORD_OPTIONS = [
+          { value: 'gps', label: 'GPS 坐标' },
+          { value: 'baidu', label: 'Baidu 坐标' },
+          { value: 'mapbar', label: 'Mapbar 坐标' },
+          { value: 'autonavi', label: '不进行转换' }
+        ]
+        $('#node-input-coordsys').typedInput({
+          typeField: '#node-input-coordsys_type',
+          default: this.coordsys_type || 'list',
+          types: ['msg', 'flow', 'global', 'env', { icon: 'fa fa-list', value: 'list', label: '原坐标系', options: COORD_OPTIONS }]
+        })
+      }
+    })
+  })()
+</script>

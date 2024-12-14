@@ -1,0 +1,165 @@
+<script type="text/html" data-template-name="amaps-pois">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="搜索 POI" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode">
+      <i class="fa fa-list"></i>
+      <span class="margin-left:8px">搜索类型</span>
+    </label>
+    <input id="node-input-mode" type="text" placeholder="搜索类型" style="width:70%" />
+    <input id="node-input-mode_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-around">
+    <label for="node-input-location">
+      <i class="fa fa-crosshairs"></i>
+      <span class="margin-left:8px">中心坐标</span>
+    </label>
+    <input id="node-input-location" type="text" placeholder="中心点坐标" style="width:70%" />
+    <input id="node-input-location_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-around">
+    <label for="node-input-radius">
+      <i class="fa fa-street-view"></i>
+      <span class="margin-left:8px">搜索半径</span>
+    </label>
+    <input id="node-input-radius" type="text" placeholder="默认值: 5000" style="width:70%" />
+    <input id="node-input-radius_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-polygon">
+    <label for="node-input-polygon">
+      <i class="fa fa-object-group"></i>
+      <span class="margin-left:8px">搜索范围</span>
+    </label>
+    <input id="node-input-polygon" type="text" placeholder="多个坐标对集合，坐标对用|分割" style="width:70%" />
+    <input id="node-input-polygon_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-text optional-around optional-polygon">
+    <label for="node-input-keywords">
+      <i class="fa fa-font"></i>
+      <span class="margin-left:8px">关键字</span>
+    </label>
+    <input id="node-input-keywords" type="text" placeholder="地点关键字" style="width:70%" />
+    <input id="node-input-keywords_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-text optional-around optional-polygon">
+    <label for="node-input-types">
+      <i class="fa fa-map-pin"></i>
+      <span class="margin-left:8px">地点类型</span>
+    </label>
+    <input id="node-input-types" type="text" placeholder="指定地点类型" style="width:70%" />
+    <input id="node-input-types_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-text optional-around">
+    <label for="node-input-region">
+      <i class="fa fa-object-ungroup"></i>
+      <span class="margin-left:8px">搜索区划</span>
+    </label>
+    <input id="node-input-region" type="text" placeholder="搜索区划" style="width:70%" />
+    <input id="node-input-region_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-pois">
+    <label for="node-input-pois">
+      <i class="fa fa-info"></i>
+      <span class="margin-left:8px">POI标识</span>
+    </label>
+    <input id="node-input-pois" type="text" placeholder="POI标识,多个之间用|分隔" style="width:70%" />
+    <input id="node-input-pois_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    const SEARCH_OPTIONS = [
+      { value: 'text', label: '关键字搜索' },
+      { value: 'around', label: '周边搜索' },
+      { value: 'polygon', label: '区域搜索' },
+      { value: 'pois', label: 'ID 搜索' }
+    ]
+    RED.nodes.registerType('amaps-pois', {
+      icon: 'pois.svg',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '搜索 POI',
+      label: function () {
+        return this.name || (SEARCH_OPTIONS.find(({ value }) => value === this.mode) || { label: '搜索 POI' }).label
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        mode: { value: 'text', type: 'text' }, // 搜索类型
+        mode_type: { value: 'list', type: 'text' },
+        keywords: { value: '', type: 'text' }, // 地点关键字
+        keywords_type: { value: 'str', type: 'text' },
+        types: { value: '', type: 'text' }, // 指定地点类型
+        types_type: { value: 'str', type: 'text' },
+        region: { value: '', type: 'text' }, // 搜索区划
+        region_type: { value: 'str', type: 'text' },
+        location: { value: '', type: 'text' }, // 中心点坐标
+        location_type: { value: 'str', type: 'text' },
+        radius: { value: 5000, type: 'text' }, // 搜索半径
+        radius_type: { value: 'num', type: 'text' },
+        polygon: { value: '', type: 'text' }, // 多边形区域
+        polygon_type: { value: 'str', type: 'text' },
+        pois: { value: '', type: 'text' }, // POI唯一标识
+        pois_type: { value: 'str', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-mode')
+          .typedInput({ types: [{ value: 'list', icon: 'fa fa-list', label: '选项', options: SEARCH_OPTIONS }] })
+          .on('change', (event, type, value) => {
+            $('.optional').hide()
+            $(`.optional-${value}`).show()
+          })
+        $('#node-input-location').typedInput({
+          typeField: '#node-input-location_type',
+          default: this.location_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-radius').typedInput({
+          typeField: '#node-input-radius_type',
+          default: this.radius_type || 'num',
+          types: ['num', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-polygon').typedInput({
+          typeField: '#node-input-polygon_type',
+          default: this.polygon_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-keywords').typedInput({
+          typeField: '#node-input-keywords_type',
+          default: this.keywords_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-types').typedInput({
+          typeField: '#node-input-types_type',
+          default: this.types_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-region').typedInput({
+          typeField: '#node-input-region_type',
+          default: this.region_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-pois').typedInput({
+          typeField: '#node-input-pois_type',
+          default: this.pois_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+      }
+    })
+  })()
+</script>

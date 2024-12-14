@@ -1,0 +1,132 @@
+<script type="text/html" data-help-name="amaps-staticmap">
+  <p>
+    <span>静态地图服务通过返回一张地图图片响应 HTTP 请求，使用户能够将高德地图以图片形式嵌入自己的网页中。用户可以指定请求的地图位置、图片大小、以及在地图上添加覆盖物，如标签、标注、折线、多边形</span>
+    <a href="https://lbs.amap.com/api/webservice/guide/api/staticmaps">查看详情</a>
+  </p>
+
+  <h3>输入信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>坐标</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      地图中心点、规则：经度和纬度用
+      <code>,</code>
+      分隔,经纬度小数点后不得超过
+      <code>6</code>
+      位
+    </dd>
+    <dt>
+      <span>缩放</span>
+      <span class="property-type">
+        <code>select</code>
+      </span>
+    </dt>
+    <dd>地图缩放级别[1 ~ 17]级</dd>
+    <dt class="optional">
+      <span>[大小]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      地图大小、图片宽度*图片高度。最大值为
+      <code>1024*1024</code>
+      ，默认为
+      <code>400*400</code>
+    </dd>
+    <dt class="optional">
+      <span>[标注]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      标注、使用规则见
+      <code>markers 详细说明</code>
+      ，标注最大数
+      <code>10</code>
+      个, 可使用
+      <code>{{location}}</code>
+      引用地图中心点
+      <code>坐标</code>
+    </dd>
+    <dt class="optional">
+      <span>[标签]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      标签、使用规则见
+      <code>labels 详细说明</code>
+      ，标签最大数
+      <code>10</code>
+      个, 可使用
+      <code>{{location}}</code>
+      引用地图中心点
+      <code>坐标</code>
+    </dd>
+    <dt class="optional">
+      <span>[折线]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      折线、使用规则见
+      <code>paths 详细说明</code>
+      ，折线和多边形最大数
+      <code>4</code>
+      个, 可使用
+      <code>{{location}}</code>
+      引用地图中心点
+      <code>坐标</code>
+    </dd>
+    <dt class="optional">
+      <span>[路况]</span>
+      <span class="property-type">
+        <code>不展现</code>
+        <span>|</span>
+        <code>展现</code>
+      </span>
+    </dt>
+    <dd>
+      交通路况标识、底图是否展现实时路况。默认
+      <code>不展现</code>
+    </dd>
+    <dt class="optional">
+      <span>[质量]</span>
+      <span class="property-type">
+        <code>普通</code>
+        <span>|</span>
+        <code>高清</code>
+      </span>
+    </dt>
+    <dd>
+      图像质量。默认
+      <code>高清</code>
+    </dd>
+  </dl>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>object</code>
+      </span>
+    </dt>
+    <dd>地图图片信息</dd>
+  </dl>
+
+  <h3>格式说明</h3>
+  <ul>
+    <li><a href="https://lbs.amap.com/api/webservice/guide/api/staticmaps#s2">markers 详细说明</a></li>
+    <li><a href="https://lbs.amap.com/api/webservice/guide/api/staticmaps#s3">labels 详细说明</a></li>
+    <li><a href="https://lbs.amap.com/api/webservice/guide/api/staticmaps#s4">paths 详细说明</a></li>
+  </ul>
+</script>

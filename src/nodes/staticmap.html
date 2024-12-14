@@ -1,0 +1,230 @@
+<script type="text/html" data-template-name="amaps-staticmap">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="Static map" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-location">
+      <i class="fa fa-crosshairs"></i>
+      <span class="margin-left:8px">坐标</span>
+    </label>
+    <input id="node-input-location" type="text" placeholder="中心点坐标" style="width:70%" />
+    <input id="node-input-location_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-zoom">
+      <i class="fa fa-search-plus"></i>
+      <span class="margin-left:8px">缩放</span>
+    </label>
+    <input id="node-input-zoom" type="text" placeholder="缩放级别[1 ~ 17]" style="width:70%" />
+    <input id="node-input-zoom_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-size">
+      <i class="fa fa-expand"></i>
+      <span class="margin-left:8px">大小</span>
+    </label>
+    <input id="node-input-size" type="text" placeholder="地图大小" style="width:70%" />
+    <input id="node-input-size_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-markers">
+      <i class="fa fa-map-pin"></i>
+      <span class="margin-left:8px">标签</span>
+    </label>
+    <input id="node-input-markers" type="text" placeholder="标签最多10个" style="width:70%" />
+    <input id="node-input-markers_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-labels">
+      <i class="fa fa-font"></i>
+      <span class="margin-left:8px">标注</span>
+    </label>
+    <input id="node-input-labels" type="text" placeholder="标注最多10个" style="width:70%" />
+    <input id="node-input-labels_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-paths">
+      <i class="fa fa-magic"></i>
+      <span class="margin-left:8px">折线</span>
+    </label>
+    <input id="node-input-paths" type="text" placeholder="折线和多边形最大数4个" style="width:70%" />
+    <input id="node-input-paths_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-traffic">
+      <i class="fa fa-photo"></i>
+      <span class="margin-left:8px">路况</span>
+    </label>
+    <input id="node-input-traffic" type="text" placeholder="交通路况标识" style="width:70%" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-scale">
+      <i class="fa fa-photo"></i>
+      <span class="margin-left:8px">质量</span>
+    </label>
+    <input id="node-input-scale" type="text" placeholder="图像质量" style="width:70%" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    RED.nodes.registerType('amaps-staticmap', {
+      icon: 'font-awesome/fa-map',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '静态地图',
+      label: function () {
+        return this.name || '静态地图'
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        location: { value: '', type: 'text' }, // 地图中心点
+        location_type: { value: 'str', type: 'text' },
+        zoom: { value: 17, type: 'text' }, // 地图级别
+        zoom_type: { value: 'num', type: 'text' },
+        size: { value: '750*500', type: 'text' }, // 地图大小
+        size_type: { value: 'str', type: 'text' },
+        markers: { value: '', type: 'text' }, // 标注
+        markers_type: { value: 'str', type: 'text' },
+        labels: { value: '', type: 'text' }, // 标签
+        labels_type: { value: 'str', type: 'text' },
+        paths: { value: '', type: 'text' }, // 折线
+        paths_type: { value: 'str', type: 'text' },
+        scale: { value: '2', type: 'text' }, // 普通/高清
+        traffic: { value: '0', type: 'text' } // 普通/高清
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-location').typedInput({
+          default: this.location_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env'],
+          typeField: '#node-input-location_type'
+        })
+        $('#node-input-zoom').typedInput({
+          typeField: '#node-input-zoom_type',
+          default: this.zoom_type || 'num',
+          types: ['num', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-size').typedInput({
+          typeField: '#node-input-size_type',
+          default: this.size_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-markers').typedInput({
+          typeField: '#node-input-markers_type',
+          default: this.markers_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-labels').typedInput({
+          typeField: '#node-input-labels_type',
+          default: this.labels_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-paths').typedInput({
+          typeField: '#node-input-paths_type',
+          default: this.paths_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-scale').typedInput({
+          types: [
+            {
+              options: [
+                { value: '1', label: '普通图' },
+                { value: '2', label: '高清图' }
+              ]
+            }
+          ]
+        })
+        $('#node-input-traffic').typedInput({
+          types: [
+            {
+              options: [
+                { value: '0', label: '不展现' },
+                { value: '1', label: '展现' }
+              ]
+            }
+          ]
+        })
+      }
+    })
+    const CACHE_IMAGES = Object.create(null)
+    const DEFAULT_WIDTH = 350
+    const renderImage = (id, data, node) => {
+      const promise = new Promise((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => resolve(img)
+        img.onerror = reject
+        img.src = data.prefix + ',' + data.data
+        return img
+      })
+      return promise.then(img => {
+        let $image = document.getElementById(node.type + '-image-' + id)
+        let $bubble = document.getElementById(node.type + '-bubble-' + id)
+        if (!$image) {
+          const $container = document.getElementById(id)
+          if (!$container) return
+          $bubble = document.createElementNS('http://www.w3.org/2000/svg', 'polyline')
+          $bubble.setAttribute('id', node.type + '-bubble-' + id)
+          $bubble.setAttribute('style', 'fill:transparent')
+          $bubble.setAttribute('stroke', '#999999')
+          $container.insertBefore($bubble, $container.lastChild.nextSibling)
+
+          $image = document.createElementNS('http://www.w3.org/2000/svg', 'image')
+          $image.setAttribute('id', node.type + '-image-' + id)
+          $image.setAttribute('x', '1')
+          $image.setAttribute('y', '47')
+          $image.setAttribute('width', DEFAULT_WIDTH)
+          $($image).on('click', evt => removeImage(node))
+          $container.insertBefore($image, $container.lastChild.nextSibling)
+        }
+        $image.setAttribute('height', (DEFAULT_WIDTH * img.height) / img.width)
+        let ibox = $image.getBBox()
+        ibox.x = 1
+        ibox.y = 47
+        ibox.width = ibox.width || DEFAULT_WIDTH
+        ibox.height = ibox.height || (DEFAULT_WIDTH * img.height) / img.width
+        const left = ibox.x
+        const top = ibox.y
+        const right = ibox.x + ibox.width
+        const bottom = ibox.y + ibox.height
+        const points = left + 4 + ',' + (top - 17) + ' ' + (left + 4) + ',' + top + ' ' + right + ',' + top + ' ' + right + ',' + bottom + ' ' + left + ',' + bottom + ' ' + left + ',' + (top - 21)
+        $bubble.setAttribute('points', points)
+        $image.setAttribute('href', img.src)
+      })
+    }
+    const removeImage = node => {
+      const $image = document.getElementById(node.type + '-image-' + node.id)
+      const $bubble = document.getElementById(node.type + '-bubble-' + node.id)
+      if ($image) $image.remove()
+      if ($bubble) $bubble.remove()
+      delete CACHE_IMAGES[node.id]
+    }
+    const redrawImage = node => {
+      const $image = document.getElementById(node.type + '-image-' + node.id)
+      const $bubble = document.getElementById(node.type + '-bubble-' + node.id)
+      if ($image) $image.remove()
+      if ($bubble) $bubble.remove()
+      if (CACHE_IMAGES[node.id]) renderImage(node.id, CACHE_IMAGES[node.id], node)
+    }
+
+    RED.comms.subscribe('amaps-staticmap', function (event, data) {
+      console.info('[event] ', { event, data })
+      if (!data.hasOwnProperty('data')) return removeImage(RED.nodes.node(data.id))
+      renderImage(data.id, (CACHE_IMAGES[data.id] = data), RED.nodes.node(data.id))
+    })
+    RED.events.on('editor:save', redrawImage)
+  })()
+</script>

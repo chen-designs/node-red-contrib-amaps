@@ -1,0 +1,45 @@
+<script type="text/html" data-help-name="amaps-district">
+  <p>
+    <span>行政区域查询是一类简单的 HTTP 接口，根据用户输入的搜索条件可以帮助用户快速的查找特定的行政区域信息</span>
+    <a href="https://lbs.amap.com/api/webservice/guide/api/district">查看详情</a>
+  </p>
+
+  <h3>输入信息</h3>
+  <dl class="message-properties">
+    <dt class="optional">
+      <span>[关键字]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      查询关键字、规则：只支持单个关键词语搜索关键词支持：行政区名称、
+      <code>citycode</code>
+      、
+      <code>adcode</code>
+      。
+      <code>adcode</code>
+      信息可参考
+      <a href="https://lbs.amap.com/api/webservice/download">城市编码表</a>
+      获取
+    </dd>
+    <dt class="optional">
+      <span>[返回下级]</span>
+      <span class="property-type">
+        <code>select</code>
+      </span>
+    </dt>
+    <dd>子级行政区、设置显示下级行政区级数(行政区级别包括：国家、省/直辖市、市、区/县、乡镇/街道多级数据)</dd>
+  </dl>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>array</code>
+      </span>
+    </dt>
+    <dd>行政区列表</dd>
+  </dl>
+</script>

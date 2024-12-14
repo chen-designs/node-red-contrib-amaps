@@ -1,0 +1,57 @@
+<script type="text/html" data-template-name="amaps-configurator">
+  <div class="form-row">
+    <label for="node-config-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">Name</span>
+    </label>
+    <input id="node-config-input-name" type="text" placeholder="Input name" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-key">
+      <i class="fa fa-ticket"></i>
+      <span class="margin-left:8px">Key</span>
+    </label>
+    <input id="node-config-input-key" type="text" placeholder="api key" />
+    <input id="node-config-input-key_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-sig">
+      <i class="fa fa-key"></i>
+      <span class="margin-left:8px">Sig</span>
+    </label>
+    <input id="node-config-input-sig" type="text" placeholder="secret key" />
+    <input id="node-config-input-sig_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('amaps-configurator', {
+    category: 'config',
+    color: '#00d5ff',
+    paletteLabel: '高德 API 配置',
+    label: function () {
+      return this.name || 'configurator'
+    },
+    defaults: {
+      name: { value: '' }
+    },
+    credentials: {
+      key: { type: 'text', required: true },
+      key_type: { value: 'str', type: 'text' },
+      sig: { type: 'text' },
+      sig_type: { value: 'str', type: 'text' }
+    },
+    oneditprepare() {
+      $('#node-config-input-key').typedInput({
+        typeField: $('#node-config-input-key_type'),
+        default: this.key_type || 'str',
+        types: ['str', 'cred', 'env', 'flow', 'global']
+      })
+      $('#node-config-input-sig').typedInput({
+        typeField: $('#node-config-input-sig_type'),
+        default: this.sig_type || 'str',
+        types: ['str', 'cred', 'env', 'flow', 'global']
+      })
+    }
+  })
+</script>

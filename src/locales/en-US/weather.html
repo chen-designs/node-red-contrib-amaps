@@ -1,0 +1,44 @@
+<script type="text/html" data-help-name="amaps-weather">
+  <p>
+    <span>根据用户输入的 adcode，查询目标区域当前/未来的天气情况，数据来源是中国气象局</span>
+    <a href="https://lbs.amap.com/api/webservice/guide/api/weatherinfo">查看详情</a>
+  </p>
+
+  <h3>输入信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>城市</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      城市编码, 输入城市的
+      <code>adcode</code>
+      、
+      <code>adcode</code>
+      信息可参考
+      <a href="https://lbs.amap.com/api/webservice/download">城市编码表</a>
+    </dd>
+    <dt>
+      <span>类型</span>
+      <span class="property-type">
+        <code>实况天气</code>
+        <span>|</span>
+        <code>预报天气</code>
+      </span>
+    </dt>
+    <dd>气象类型, 实况天气、预报天气</dd>
+  </dl>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>array</code>
+      </span>
+    </dt>
+    <dd>实况天气或预报天气信息数据信息</dd>
+  </dl>
+</script>

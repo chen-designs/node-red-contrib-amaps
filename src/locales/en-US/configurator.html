@@ -1,0 +1,81 @@
+<script type="text/html" data-help-name="amaps-configurator">
+  <p>
+    <span>为了正常调用 Web 服务 API，请先注册成为高德开放平台开发者，并申请 Web 服务的 KEY</span>
+    <a href="https://lbs.amap.com/api/webservice/create-project-and-key">查看详情</a>
+  </p>
+
+  <h3>配置信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>Key</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>高德 API Key</dd>
+    <dt class="optional">
+      <span>[Sig]</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>数字签名秘钥[可以为空]</dd>
+  </dl>
+
+  <h3>成为开发者并创建 KEY</h3>
+  <ol>
+    <li>
+      <div>
+        登录控制台：登录
+        <a href="https://console.amap.com">高德开放平台控制台</a>
+        ，如果没有开发者账号，请
+        <a href="https://console.amap.com/dev/index">注册成为开发者</a>
+      </div>
+      <img src="/resources/node-red-contrib-amaps/config-step-1.png" />
+    </li>
+    <li>
+      <div>
+        创建新应用：进入
+        <code>【应用管理】</code>
+        点击页面右上角
+        <code>【创建新应用】</code>
+        填写表单即可创建新的应用。
+      </div>
+      <img src="/resources/node-red-contrib-amaps/config-step-2.png" />
+    </li>
+    <li>
+      <div>
+        创建 KEY：进入
+        <code>【应用管理】</code>
+        在我的应用中选择需要创建应用，点击
+        <code>【添加 Key】</code>
+        表单中的服务平台选择
+        <code>【Web 服务】</code>
+        。
+      </div>
+      <img src="/resources/node-red-contrib-amaps/config-step-3.png" />
+    </li>
+    <li>
+      <div>
+        获取 KEY：创建成功后可获取
+        <code>Key</code>
+        和
+        <code>安全密钥</code>
+        。
+      </div>
+      <img src="/resources/node-red-contrib-amaps/config-step-4.png" />
+    </li>
+    <li>
+      <div>
+        完成后将上面获取的
+        <code>Key</code>
+        和
+        <code>安全密钥</code>
+        填写到上面
+        <code>配置信息</code>
+        中。
+      </div>
+      <img src="/resources/node-red-contrib-amaps/config-step-4.png" />
+    </li>
+  </ol>
+</script>

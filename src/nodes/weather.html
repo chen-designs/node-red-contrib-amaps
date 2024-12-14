@@ -1,0 +1,73 @@
+<script type="text/html" data-template-name="amaps-weather">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="天气查询" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-city">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">城市</span>
+    </label>
+    <input id="node-input-city" type="text" placeholder="城市" style="width:70%" />
+    <input id="node-input-city_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-extensions">
+      <i class="fa fa-sliders"></i>
+      <span class="margin-left:8px">类型</span>
+    </label>
+    <input id="node-input-extensions" type="text" placeholder="类型" style="width:70%" />
+    <input id="node-input-extensions_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    const EXTENSIONS = [
+      { value: 'all', label: '预报天气' },
+      { value: 'base', label: '实况天气' }
+    ]
+    RED.nodes.registerType('amaps-weather', {
+      icon: 'weather.svg',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '天气查询',
+      label: function () {
+        return this.name || (EXTENSIONS.find(({ value }) => value === this.extensions) || { label: '天气查询' }).label
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        city: { value: '', type: 'text' }, // 原始坐标
+        city_type: { value: 'str', type: 'text' },
+        extensions: { value: 'all', type: 'text' }, // 原坐标系
+        extensions_type: { value: 'list', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-city').typedInput({
+          typeField: '#node-input-city_type',
+          default: this.city_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+
+        $('#node-input-extensions').typedInput({
+          typeField: '#node-input-extensions_type',
+          default: this.extensions_type || 'list',
+          types: [{ icon: 'fa fa-list', value: 'list', label: '选项', options: EXTENSIONS }]
+        })
+      }
+    })
+  })()
+</script>

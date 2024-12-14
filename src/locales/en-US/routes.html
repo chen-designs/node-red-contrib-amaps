@@ -1,0 +1,305 @@
+<script type="text/html" data-help-name="amaps-routes">
+  <p>
+    <span>提供了多种路线规划服务。支持驾车、公交、步行、骑行、电动车路线规划</span>
+    <a href="https://lbs.amap.com/api/webservice/guide/api/newroute">查看详情</a>
+  </p>
+
+  <h3>输入信息</h3>
+  <ol class="node-ports">
+    <li>
+      <span>驾车路线规划</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api/newroute#s1">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>起点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>终点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          目的地经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>驾车策略</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>驾车算路策略</dd>
+        <dt>
+          <span>车牌号码</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          车牌号，如
+          <code>京 AHA322</code>
+          支持
+          <code>6</code>
+          位传统车牌和
+          <code>7</code>
+          位新能源车牌用于判断限行相关
+        </dd>
+        <dt>
+          <span>车辆类型</span>
+          <span class="property-type">
+            <code>燃油汽车</code>
+            <span>|</span>
+            <code>纯电动汽车</code>
+            <span>|</span>
+            <code>插电式混动汽车</code>
+          </span>
+        </dt>
+        <dd>
+          车辆类型，默认
+          <code>燃油汽车</code>
+        </dd>
+        <dt>
+          <span>使用轮渡</span>
+          <span class="property-type">
+            <code>使用轮渡</code>
+            <span>|</span>
+            <code>不使用轮渡</code>
+          </span>
+        </dt>
+        <dd>
+          是否使用轮渡，默认
+          <code>使用轮渡</code>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>步行路线规划</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api/newroute#s5">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>起点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>终点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          目的地经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>公交路线规划</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api/newroute#s17">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>起点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>终点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          目的地经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>换乘策略</span>
+          <span class="property-type">
+            <code>select</code>
+          </span>
+        </dt>
+        <dd>
+          公共交通换乘策略，默认
+          <code>推荐模式</code>
+        </dd>
+        <dt>
+          <span>起点城市</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点所在城市, 仅支持
+          <code>citycode</code>
+          ，相同时代表同城，不同时代表跨城
+        </dd>
+        <dt>
+          <span>终点城市</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          终点所在城市, 仅支持
+          <code>citycode</code>
+          ，相同时代表同城，不同时代表跨城
+        </dd>
+        <dt class="optional">
+          <span>[日期]</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          请求日期, 例如
+          <code>2013-10-28</code>
+        </dd>
+        <dt class="optional">
+          <span>[时间]</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          请求时间, 例如
+          <code>9-54</code>
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>骑行路线规划</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api/newroute#s9">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>起点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>终点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          目的地经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+      </dl>
+    </li>
+    <li>
+      <span>电动车路线规划</span>
+      <a style="float:right;margin-right:6px;font-size:12px" href="https://lbs.amap.com/api/webservice/guide/api/newroute#s13">参数详情</a>
+      <dl class="message-properties">
+        <dt>
+          <span>起点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          起点经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+        <dt>
+          <span>终点坐标</span>
+          <span class="property-type">
+            <code>string</code>
+          </span>
+        </dt>
+        <dd>
+          目的地经纬度，经度在前纬度在后，经度和纬度用
+          <code>,</code>
+          分割，经纬度小数点后不得超过
+          <code>6</code>
+          位
+        </dd>
+      </dl>
+    </li>
+  </ol>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>array</code>
+      </span>
+    </dt>
+    <dd>路线规划方案列表</dd>
+  </dl>
+
+  <h3>功能介绍</h3>
+  <ul>
+    <li>
+      <code>驾车路线规划</code>
+      开发者可根据起终点坐标检索符合条件的驾车路线规划方案，支持一次请求返回多条路线结果、支持传入多个途经点、支持传入车牌规避限行、支持根据不同业务场景设置不同的算路策略等
+    </li>
+    <li>
+      <code>步行路线规划</code>
+      开发者可根据起终点坐标检索符合条件的步行路线规划方案
+    </li>
+    <li>
+      <code>公交路线规划</code>
+      开发者可根据起终点坐标检索符合条件的公共交通路线规划方案，支持结合业务场景设置不同的公交换乘策略
+    </li>
+    <li>
+      <code>骑行路线规划</code>
+      开发者可根据起终点坐标检索符合条件的骑行路线规划方案
+    </li>
+    <li>
+      <code>电动车路线规划</code>
+      开发者可根据起终点坐标检索符合条件的电动车路线规划方案，与骑行略有不同的是会考虑限行等条件
+    </li>
+  </ul>
+</script>

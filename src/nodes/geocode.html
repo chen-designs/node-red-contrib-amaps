@@ -1,0 +1,108 @@
+<script type="text/html" data-template-name="amaps-geocode">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input id="node-input-name" type="text" placeholder="地理编码" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode">
+      <i class="fa fa-list"></i>
+      <span class="margin-left:8px">类型</span>
+    </label>
+    <input id="node-input-mode" type="text" placeholder="编码类型(geo、regeo)" style="width:70%" />
+  </div>
+  <!-- 地理编码 -->
+  <div class="form-row optional optional-geo">
+    <label for="node-input-address">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">地址</span>
+    </label>
+    <input id="node-input-address" type="text" placeholder="结构化地址信息" style="width:70%" />
+    <input id="node-input-address_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-geo">
+    <label for="node-input-city">
+      <i class="fa fa-fort-awesome"></i>
+      <span class="margin-left:8px">城市</span>
+    </label>
+    <input id="node-input-city" type="text" placeholder="指定查询的城市" style="width:70%" />
+    <input id="node-input-city_type" type="hidden" />
+  </div>
+  <!-- 逆地理编码 -->
+  <div class="form-row optional optional-regeo">
+    <label for="node-input-location">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">坐标</span>
+    </label>
+    <input id="node-input-location" type="text" placeholder="经纬度坐标" style="width:70%" />
+    <input id="node-input-location_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    const MODE_OPTIONS = [
+      { value: 'geo', label: '地理编码' },
+      { value: 'regeo', label: '逆地理编码' }
+    ]
+    RED.nodes.registerType('amaps-geocode', {
+      icon: 'geocode.svg',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '地理编码',
+      label: function () {
+        return this.name || (MODE_OPTIONS.find(({ value }) => value === this.mode) || { label: '地理编码' }).label
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        mode: { value: 'regeo', type: 'text' },
+        mode_type: { value: 'list', type: 'text' },
+        location: { value: '', type: 'text' }, // 经纬度
+        location_type: { value: 'str', type: 'text' },
+        address: { value: '', type: 'text' }, // 地址
+        address_type: { value: 'str', type: 'text' },
+        city: { value: '', type: 'text' }, // 城市
+        city_type: { value: 'str', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-mode')
+          .typedInput({
+            typeField: '#node-input-mode_type',
+            default: this.mode_type || 'list',
+            types: [{ value: 'list', icon: 'fa fa-list', label: '选项', options: MODE_OPTIONS }]
+          })
+          .on('change', (event, type, value) => {
+            $('.optional').hide()
+            $(`.optional-${value}`).show()
+          })
+        $('#node-input-location').typedInput({
+          typeField: '#node-input-location_type',
+          default: this.location_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-address').typedInput({
+          typeField: '#node-input-address_type',
+          default: this.address_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-city').typedInput({
+          typeField: '#node-input-city_type',
+          default: this.city_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+      }
+    })
+  })()
+</script>

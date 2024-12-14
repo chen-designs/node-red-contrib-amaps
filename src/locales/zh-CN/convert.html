@@ -1,0 +1,74 @@
+<script type="text/html" data-help-name="amaps-convert">
+  <p>
+    将用户输入的非高德坐标(
+    <code>gps 坐标</code>
+    、
+    <code>mapbar 坐标</code>
+    、
+    <code>baidu 坐标</code>
+    、
+    <code>autonavi 不进行转换</code>
+    )转换成高德坐标
+    <a href="https://lbs.amap.com/api/webservice/guide/api/convert">查看详情</a>
+  </p>
+
+  <h3>输入信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>原始坐标</span>
+      <span class="property-type">
+        <code>string</code>
+      </span>
+    </dt>
+    <dd>
+      <div>
+        经度和纬度用
+        <code>,</code>
+        分割，经度在前纬度在后，经纬度小数点后不得超过
+        <code>6</code>
+        位
+      </div>
+      <div>
+        多个坐标对之间用
+        <code>|</code>
+        进行分隔最多支持
+        <code>40</code>
+        对坐标
+      </div>
+    </dd>
+    <dt>
+      <span>原坐标系</span>
+      <span class="property-type">
+        <code>GPS 坐标</code>
+        <span>|</span>
+        <code>Mapbar 坐标</code>
+        <span>|</span>
+        <code>Baidu 坐标</code>
+        <span>|</span>
+        <code>不进行转换</code>
+      </span>
+    </dt>
+    <dd>
+      原始坐标的坐标系，默认为
+      <code>GPS 坐标系</code>
+    </dd>
+  </dl>
+
+  <h3>输出信息</h3>
+  <dl class="message-properties">
+    <dt>
+      <span>payload</span>
+      <span class="property-type">
+        <code>object</code>
+      </span>
+    </dt>
+    <dd>
+      转换之后的坐标。若有多个坐标则用
+      <code>;</code>
+      进行区分和间隔
+    </dd>
+  </dl>
+
+  <h3>功能说明</h3>
+  <p>为了使用高德服务，用户需要将非高德坐标转换为高德坐标</p>
+</script>

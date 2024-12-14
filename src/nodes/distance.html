@@ -1,0 +1,87 @@
+<script type="text/html" data-template-name="amaps-distance">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="距离测量" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-origins">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">起点坐标</span>
+    </label>
+    <input id="node-input-origins" type="text" placeholder="多个用坐标用|隔开" style="width:70%" />
+    <input id="node-input-origins_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-destination">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">终点坐标</span>
+    </label>
+    <input id="node-input-destination" type="text" placeholder="终点坐标" style="width:70%" />
+    <input id="node-input-destination_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-calctype">
+      <i class="fa fa-calculator"></i>
+      <span class="margin-left:8px">计算方式</span>
+    </label>
+    <input id="node-input-calctype" type="text" placeholder="计算方式(0:直线、1:驾车、2:步行)" style="width:70%" />
+    <input id="node-input-calctype_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    const TYPE_OPTIONS = [
+      { value: '0', label: '直线距离' },
+      { value: '1', label: '驾车距离' },
+      { value: '2', label: '步行距离' }
+    ]
+    RED.nodes.registerType('amaps-distance', {
+      icon: 'ruler.svg',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '距离测量',
+      label: function () {
+        return this.name || (TYPE_OPTIONS.find(item => item.value === this.calctype) || { label: '距离测量' }).label
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        origins: { value: '', type: 'text' }, // 经纬度
+        origins_type: { value: 'str', type: 'text' },
+        destination: { value: '', type: 'text' }, // 经纬度
+        destination_type: { value: 'str', type: 'text' },
+        calctype: { value: '0', type: 'text' }, // 计算方式
+        calctype_type: { value: 'list', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        $('#node-input-origins').typedInput({
+          typeField: '#node-input-origins_type',
+          default: this.origins_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-destination').typedInput({
+          typeField: '#node-input-destination_type',
+          default: this.destination_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-calctype').typedInput({
+          default: this.calctype_type || 'list',
+          types: [{ value: 'list', icon: 'fa fa-list', label: '选项', options: TYPE_OPTIONS }]
+        })
+      }
+    })
+  })()
+</script>

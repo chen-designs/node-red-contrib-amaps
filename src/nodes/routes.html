@@ -1,0 +1,261 @@
+<script type="text/html" data-template-name="amaps-routes">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="路线规划" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode">
+      <i class="fa fa-list"></i>
+      <span class="margin-left:8px">规划类型</span>
+    </label>
+    <input id="node-input-mode" type="text" placeholder="规划类型" style="width:70%" />
+    <input id="node-input-mode_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-origin">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">起点坐标</span>
+    </label>
+    <input id="node-input-origin" type="text" placeholder="起点坐标" style="width:70%" />
+    <input id="node-input-origin_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-destination">
+      <i class="fa fa-map-marker"></i>
+      <span class="margin-left:8px">终点坐标</span>
+    </label>
+    <input id="node-input-destination" type="text" placeholder="终点坐标" style="width:70%" />
+    <input id="node-input-destination_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-transit">
+    <label for="node-input-strategy1">
+      <i class="fa fa-map-signs"></i>
+      <span class="margin-left:8px">换乘策略</span>
+    </label>
+    <input id="node-input-strategy1" type="text" placeholder="公交换乘策略" style="width:70%" />
+    <input id="node-input-strategy1_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-transit">
+    <label for="node-input-city1">
+      <i class="fa fa-fort-awesome"></i>
+      <span class="margin-left:8px">起点城市</span>
+    </label>
+    <input id="node-input-city1" type="text" placeholder="仅支持 citycode" style="width:70%" />
+    <input id="node-input-city1_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-transit">
+    <label for="node-input-city2">
+      <i class="fa fa-fort-awesome"></i>
+      <span class="margin-left:8px">终点城市</span>
+    </label>
+    <input id="node-input-city2" type="text" placeholder="仅支持 citycode" style="width:70%" />
+    <input id="node-input-city2_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-transit">
+    <label for="node-input-date">
+      <i class="fa fa-calendar"></i>
+      <span class="margin-left:8px">请求日期</span>
+    </label>
+    <input id="node-input-date" type="text" placeholder="例如:2013-10-28" style="width:70%" />
+    <input id="node-input-date_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-transit">
+    <label for="node-input-time">
+      <i class="fa fa-clock-o"></i>
+      <span class="margin-left:8px">请求时间</span>
+    </label>
+    <input id="node-input-time" type="text" placeholder="例如:9-54" style="width:70%" />
+    <input id="node-input-time_type" type="hidden" />
+  </div>
+
+  <div class="form-row optional optional-driving">
+    <label for="node-input-strategy2">
+      <i class="fa fa-map-signs"></i>
+      <span class="margin-left:8px">驾车策略</span>
+    </label>
+    <input id="node-input-strategy2" type="text" placeholder="驾车算路策略" style="width:70%" />
+    <input id="node-input-strategy2_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-driving">
+    <label for="node-input-plate">
+      <i class="fa fa-car"></i>
+      <span class="margin-left:8px">车牌号码</span>
+    </label>
+    <input id="node-input-plate" type="text" placeholder="车牌号码" style="width:70%" />
+  </div>
+  <div class="form-row optional optional-driving">
+    <label for="node-input-cartype">
+      <i class="fa fa-car"></i>
+      <span class="margin-left:8px">车辆类型</span>
+    </label>
+    <input id="node-input-cartype" type="text" placeholder="车辆类型" style="width:70%" />
+    <input id="node-input-cartype_type" type="hidden" />
+  </div>
+  <div class="form-row optional optional-driving">
+    <label for="node-input-ferry">
+      <i class="fa fa-ship"></i>
+      <span class="margin-left:8px">使用轮渡</span>
+    </label>
+    <input id="node-input-ferry" type="text" placeholder="是否使用轮渡" style="width:70%" />
+    <input id="node-input-ferry_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  ;(function () {
+    const ROUTE_OPTIONS = [
+      { value: 'driving', label: '驾车路线规划' },
+      { value: 'walking', label: '步行路线规划' },
+      { value: 'transit', label: '公交路线规划' },
+      { value: 'cycling', label: '骑行路线规划' },
+      { value: 'elebike', label: '电车路线规划' }
+    ]
+    RED.nodes.registerType('amaps-routes', {
+      icon: 'routes.svg',
+      color: '#00d5ff',
+      category: '高德地图',
+      paletteLabel: '路线规划',
+      label: function () {
+        return this.name || (ROUTE_OPTIONS.find(item => item.value === this.mode) || { label: '路线规划' }).label
+      },
+      defaults: {
+        name: { value: '', type: 'text' },
+        amaps: { value: '', type: 'amaps-configurator' },
+        mode: { value: 'driving', type: 'text' }, // 规划类型
+        mode_type: { value: 'list', type: 'text' },
+        origin: { value: '', type: 'text' }, // 起点坐标
+        origin_type: { value: 'str', type: 'text' },
+        destination: { value: '', type: 'text' }, // 终点坐标
+        destination_type: { value: 'str', type: 'text' },
+
+        city1: { value: '', type: 'text' }, // 公交 - 起点所在城市
+        city1_type: { value: 'str', type: 'text' },
+        city2: { value: '', type: 'text' }, // 公交 - 终点所在城市
+        city2_type: { value: 'str', type: 'text' },
+        strategy1: { value: '0', type: 'text' }, // 公交 - 公共交通换乘策略
+        strategy1_type: { value: 'list', type: 'text' },
+        date: { value: '', type: 'text' }, // 公交 - 请求日期
+        date_type: { value: 'str', type: 'text' },
+        time: { value: '', type: 'text' }, // 公交 - 请求时间
+        time_type: { value: 'str', type: 'text' },
+
+        strategy2: { value: '32', type: 'text' }, // 驾车 - 驾车算路策略
+        strategy2_type: { value: 'list', type: 'text' },
+        plate: { value: '', type: 'text' }, // 驾车 - 车牌号码
+        plate_type: { value: 'str', type: 'text' },
+        cartype: { value: '0', type: 'text' }, // 驾车 - 车辆类型
+        cartype_type: { value: 'list', type: 'text' },
+        ferry: { value: '', type: 'text' }, // 驾车 - 是否使用轮渡
+        ferry_type: { value: 'list', type: 'text' }
+      },
+      inputs: 1,
+      outputs: 1,
+      oneditprepare() {
+        const BUS_STRATEGYS = [
+          { value: '0', label: '推荐模式' },
+          { value: '1', label: '最经济模式，票价最低' },
+          { value: '2', label: '最少换乘模式，换乘次数少' },
+          { value: '3', label: '最少步行模式，尽可能减少步行距离' },
+          { value: '4', label: '最舒适模式，尽可能乘坐空调车' },
+          { value: '5', label: '不乘地铁模式，不乘坐地铁路线' },
+          { value: '6', label: '地铁图模式，起终点都是地铁站' },
+          { value: '7', label: '地铁优先模式，步行距离不超过4KM' },
+          { value: '8', label: '时间短模式，方案花费总时间最少' }
+        ]
+        const CAR_STRATEGYS = [
+          { value: '32', label: '默认' },
+          { value: '0', label: '速度优先' },
+          { value: '1', label: '费用优先' },
+          { value: '2', label: '距离优先' },
+          { value: '33', label: '躲避拥堵' },
+          { value: '34', label: '高速优先' },
+          { value: '35', label: '不走高速' },
+          { value: '36', label: '少收费' },
+          { value: '37', label: '大路优先' },
+          { value: '38', label: '速度最快' },
+          { value: '39', label: '躲避拥堵＋高速优先' },
+          { value: '40', label: '躲避拥堵＋不走高速' },
+          { value: '41', label: '躲避拥堵＋少收费' },
+          { value: '42', label: '少收费＋不走高速' },
+          { value: '43', label: '躲避拥堵＋少收费＋不走高速' },
+          { value: '44', label: '躲避拥堵＋大路优先' },
+          { value: '45', label: '躲避拥堵＋速度最快' }
+        ]
+        const CAR_TYPES = [
+          { value: '0', label: '燃油汽车' },
+          { value: '1', label: '纯电动汽车' },
+          { value: '2', label: '插电式混动汽车' }
+        ]
+        const FERRY_OPTIONS = [
+          { value: '0', label: '使用渡轮' },
+          { value: '1', label: '不使用渡轮 ' }
+        ]
+
+        $('#node-input-mode')
+          .typedInput({ types: [{ value: 'list', icon: 'fa fa-list', value: '选项', options: ROUTE_OPTIONS }] })
+          .on('change', (event, type, value) => {
+            $('.optional').hide()
+            $(`.optional-${value}`).show()
+          })
+        $('#node-input-origin').typedInput({
+          typeField: '#node-input-origin_type',
+          default: this.origin_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-destination').typedInput({
+          typeField: '#node-input-destination_type',
+          default: this.destination_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-strategy1').typedInput({
+          types: [{ value: 'list', icon: 'fa fa-list', value: '选项', options: BUS_STRATEGYS }]
+        })
+        $('#node-input-city1').typedInput({
+          typeField: '#node-input-city1_type',
+          default: this.city1_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-city2').typedInput({
+          typeField: '#node-input-city2_type',
+          default: this.city2_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-date').typedInput({
+          typeField: '#node-input-date_type',
+          default: this.date_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-time').typedInput({
+          typeField: '#node-input-time_type',
+          default: this.time_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+
+        $('#node-input-strategy2').typedInput({
+          types: [{ value: 'list', icon: 'fa fa-list', value: '选项', options: CAR_STRATEGYS }]
+        })
+        $('#node-input-plate').typedInput({
+          typeField: '#node-input-plate_type',
+          default: this.plate_type || 'str',
+          types: ['str', 'msg', 'flow', 'global', 'env']
+        })
+        $('#node-input-cartype').typedInput({
+          types: [{ value: 'list', icon: 'fa fa-list', value: '选项', options: CAR_TYPES }]
+        })
+        $('#node-input-ferry').typedInput({
+          types: [{ value: 'list', icon: 'fa fa-list', value: '选项', options: FERRY_OPTIONS }]
+        })
+      }
+    })
+  })()
+</script>

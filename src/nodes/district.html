@@ -1,0 +1,68 @@
+<script type="text/html" data-template-name="amaps-district">
+  <div class="form-row">
+    <label for="node-input-amaps">
+      <i class="fa fa-cogs"></i>
+      <span class="margin-left:8px">配置</span>
+    </label>
+    <input type="text" id="node-input-amaps" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">
+      <i class="fa fa-tag"></i>
+      <span class="margin-left:8px">名称</span>
+    </label>
+    <input type="text" id="node-input-name" placeholder="行政区域" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-keywords">
+      <i class="fa fa-font"></i>
+      <span class="margin-left:8px">关键字</span>
+    </label>
+    <input id="node-input-keywords" type="text" placeholder="地点关键字" style="width:70%" />
+    <input id="node-input-keywords_type" type="hidden" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-subdistrict">
+      <i class="fa fa-sitemap"></i>
+      <span class="margin-left:8px">返回下级</span>
+    </label>
+    <input id="node-input-subdistrict" type="text" placeholder="返回下级级行政区" style="width:70%" />
+    <input id="node-input-subdistrict_type" type="hidden" />
+  </div>
+</script>
+
+<script type="text/javascript">
+  RED.nodes.registerType('amaps-district', {
+    icon: 'district.svg',
+    color: '#00d5ff',
+    category: '高德地图',
+    paletteLabel: '行政区域',
+    label: function () {
+      return this.name || '行政区域'
+    },
+    defaults: {
+      name: { value: '', type: 'text' },
+      amaps: { value: '', type: 'amaps-configurator' },
+      keywords: { value: '', type: 'text' }, // 地点关键字
+      keywords_type: { value: 'str', type: 'text' },
+      subdistrict: { value: '1', type: 'text' }, // 子级行政区
+      subdistrict_type: { value: 'list', type: 'text' }
+    },
+    inputs: 1,
+    outputs: 1,
+    oneditprepare() {
+      $('#node-input-keywords').typedInput({
+        typeField: '#node-input-keywords_type',
+        default: this.keywords_type || 'str',
+        types: ['str', 'msg', 'flow', 'global', 'env']
+      })
+      const SUBDISTRICT_OPTIONS = [
+        { value: '0', label: '不返回下级行政区' },
+        { value: '1', label: '返回下一级行政区' },
+        { value: '2', label: '返回下两级行政区' },
+        { value: '3', label: '返回下三级行政区' }
+      ]
+      $('#node-input-subdistrict').typedInput({ types: [{ value: 'list', icon: 'fa fa-list', label: '选项', options: SUBDISTRICT_OPTIONS }] })
+    }
+  })
+</script>
